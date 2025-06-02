@@ -43,7 +43,7 @@ rag-qa-system/
 
 ---
 
-## ðŸ“¦ Installation
+##  Installation
 
 ### 1. Clone the Repository
 
@@ -67,7 +67,7 @@ pip install -r requirements.txt
 
 ---
 
-## â–¶ï¸ Run the App
+## ¸ Run the App
 
 ```bash
 python src/app.py
@@ -77,7 +77,7 @@ Then, open the Streamlit app in your browser (default: http://localhost:8501).
 
 ---
 
-## ðŸ§ª Example Usage
+##  Example Usage
 
 ```python
 from src.qa import ask_question
@@ -87,7 +87,7 @@ ask_question("What is retrieval-augmented generation?")
 
 ---
 
-## ðŸ“š How It Works
+##  How It Works
 
 1. **Document Upload**
    - Supports `.pdf`, `.docx`, and `.txt` files.
@@ -106,7 +106,7 @@ ask_question("What is retrieval-augmented generation?")
 
 ---
 
-## ðŸ“Œ Use Cases
+##  Use Cases
 
 - Academic research assistants
 - Corporate knowledge base Q&A
@@ -115,7 +115,7 @@ ask_question("What is retrieval-augmented generation?")
 
 ---
 
-## ðŸš§ To-Do / Future Work
+##  To-Do / Future Work
 
 - Add UI for viewing document sources
 - Add support for more formats (CSV, XLSX)
@@ -125,7 +125,7 @@ ask_question("What is retrieval-augmented generation?")
 
 ---
 
-## ðŸ¤ Contributing
+##  Contributing
 
 Contributions are welcome!
 
@@ -138,13 +138,3 @@ git push origin feature/my-feature
 Then, open a Pull Request on GitHub.
 
 ---
-
-## ðŸ“œ License
-
-This project is licensed under the MIT License. See `LICENSE` for more details.
-
----
-
-## ðŸ‘¤ Author
-
-- GitHub: [Aadhi-07](https://github.com/Aadhi-07)
