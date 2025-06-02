@@ -31,14 +31,14 @@
 
 ```
 rag-qa-system/
-â”œâ”€â”€ data/                   # Sample document files
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ app.py              # Main Streamlit app
-â”‚   â”œâ”€â”€ indexer.py          # Document parsing + embedding
-â”‚   â”œâ”€â”€ retriever.py        # Similarity search logic
-â”‚   â””â”€â”€ generator.py        # Answer generation logic
-â”œâ”€â”€ requirements.txt
-â””â”€â”€ README.md
+data/                   # Sample document files
+src/
+app.py              # Main Streamlit app
+indexer.py          # Document parsing + embedding
+retriever.py        # Similarity search logic
+generator.py        # Answer generation logic
+requirements.txt
+README.md
 ```
 
 ---
