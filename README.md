@@ -1,11 +1,11 @@
 # Face-recognition
-# ðŸ§  RAG QA System
+#  RAG QA System
 
 **RAG QA System** is a Retrieval-Augmented Generation (RAG) based Question Answering system that allows users to upload documents and ask questions. The system retrieves relevant document chunks and generates accurate, context-aware answers using a transformer-based language model.
 
 ---
 
-## ðŸš€ Features
+##  Features
 
 - Upload multiple documents (PDF, DOCX, TXT)
 - Semantic search using embeddings and vector similarity
@@ -15,13 +15,7 @@
 
 ---
 
-## ðŸ–¥ï¸ Demo Preview
-
-<img src="demo.gif" width="600"/>
-
----
-
-## ðŸ› ï¸ Tech Stack
+## ¸ Tech Stack
 
 | Component         | Technology                    |
 |------------------|-------------------------------|
@@ -33,7 +27,7 @@
 
 ---
 
-## ðŸ“ Project Structure
+##  Project Structure
 
 ```
 rag-qa-system/
