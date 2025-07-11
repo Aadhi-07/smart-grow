@@ -40,7 +40,7 @@ const chatFlow = ai.defineFlow(
         ...history,
         {
           role: 'user',
-          content: [{text: message}],
+          content: message,
         },
       ],
       system: `You are a friendly and helpful gardening assistant for a web app called TerraGrow.
