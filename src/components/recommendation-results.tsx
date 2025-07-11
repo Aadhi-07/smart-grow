@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, Bot, Info, Package, Waves } from 'lucide-react';
 import Image from 'next/image';
+import { CropImage } from './crop-image';
 
 type RecommendationResultsProps = {
   recommendations: CropRecommendationOutput | null;
@@ -20,8 +21,8 @@ export function RecommendationResults({ recommendations, isLoading, error }: Rec
     return (
       <div className="space-y-4">
         <Skeleton className="h-8 w-1/2" />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {Array.from({ length: 2 }).map((_, i) => (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => (
             <Card key={i}>
                 <Skeleton className="h-[200px] w-full rounded-t-lg" />
                 <CardHeader>
@@ -88,15 +89,7 @@ export function RecommendationResults({ recommendations, isLoading, error }: Rec
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {recommendations.crops.map((crop, index) => (
           <Card key={`${crop.name}-${index}`} className="flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
-            <div className="relative h-48 w-full">
-              <Image 
-                src={`https://placehold.co/400x300.png`}
-                alt={crop.name}
-                layout="fill"
-                objectFit="cover"
-                data-ai-hint={`${crop.name.toLowerCase().replace(' ', '')} plant`}
-              />
-            </div>
+            <CropImage cropName={crop.name} />
             <CardHeader>
               <CardTitle className="font-headline text-xl">{crop.name}</CardTitle>
               <CardDescription>Best Season: {crop.season}</CardDescription>
