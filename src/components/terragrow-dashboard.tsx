@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { RecommendationForm } from './recommendation-form';
 import { RecommendationResults } from './recommendation-results';
 import { SensorDisplay } from './sensor-display';
+import { Chatbot } from './chatbot';
 
 export function TerraGrowDashboard() {
   const [recommendations, setRecommendations] = useState<CropRecommendationOutput | null>(null);
@@ -45,6 +46,7 @@ export function TerraGrowDashboard() {
           />
         </main>
       </div>
+      <Chatbot />
     </div>
   );
 }
