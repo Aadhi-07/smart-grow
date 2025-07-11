@@ -19,6 +19,9 @@ export function TerraGrowDashboard() {
   const [trackedCrops, setTrackedCrops] = useState<TrackedCrop[]>([]);
 
   const handlePlantCrop = (crop: CropRecommendationOutput['crops'][0]) => {
+    const isPlanted = trackedCrops.some(tc => tc.name === crop.name);
+    if (isPlanted) return;
+
     const newCrop: TrackedCrop = {
       ...crop,
       id: `${crop.name}-${new Date().getTime()}`,
@@ -81,6 +84,7 @@ export function TerraGrowDashboard() {
             isLoading={isLoading}
             error={error}
             onPlantCrop={handlePlantCrop}
+            trackedCrops={trackedCrops}
           />
         </main>
       </div>

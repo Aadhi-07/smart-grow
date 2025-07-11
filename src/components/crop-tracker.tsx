@@ -5,7 +5,7 @@ import type { TrackedCrop } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Droplets, Trash2, Calendar, Wind } from 'lucide-react';
+import { Droplets, Trash2, Calendar } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { CropImage } from './crop-image';
 
