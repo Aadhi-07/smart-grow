@@ -1,21 +1,19 @@
 
 "use client";
 
-import { layoutCrops, type CropLayoutOutput, type CropRecommendationOutput, type RecommendedCrop } from '@/ai/flows/crop-recommendation';
+import { type CropRecommendationAndLayoutOutput, type RecommendedCrop } from '@/ai/flows/crop-recommendation';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, Bot, Info, Package, PlusCircle, CheckCircle, BrainCircuit, Loader2 } from 'lucide-react';
+import { AlertCircle, Bot, Info, Package, PlusCircle, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import type { TerraceLayout, TrackedCrop } from '@/lib/types';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 type RecommendationResultsProps = {
-  recommendations: CropRecommendationOutput | null;
+  recommendations: CropRecommendationAndLayoutOutput | null;
   isLoading: boolean;
   error: string | null;
   onPlantCrop: (crop: RecommendedCrop) => void;
@@ -29,34 +27,6 @@ const cropColors = [
 ];
 
 export function RecommendationResults({ recommendations, isLoading, error, onPlantCrop, trackedCrops, terraceLayout }: RecommendationResultsProps) {
-  const [isLayoutLoading, setIsLayoutLoading] = useState(false);
-  const [layoutError, setLayoutError] = useState<string | null>(null);
-  const [cropLayout, setCropLayout] = useState<CropLayoutOutput | null>(null);
-  const { toast } = useToast();
-
-  const handleGenerateLayout = async () => {
-    if (!recommendations) return;
-    setIsLayoutLoading(true);
-    setLayoutError(null);
-    try {
-      const result = await layoutCrops({
-        terraceLayout: terraceLayout.grid,
-        cropsToPlant: recommendations.crops,
-      });
-      setCropLayout(result);
-    } catch (e) {
-        console.error(e);
-        const errorMessage = e instanceof Error ? e.message : "An unknown error occurred.";
-        setLayoutError(`Failed to generate layout: ${errorMessage}`);
-        toast({
-            title: "Layout Generation Failed",
-            description: "We couldn't generate a crop layout. Please try again.",
-            variant: "destructive",
-        });
-    } finally {
-        setIsLayoutLoading(false);
-    }
-  };
   
   const getCropColor = (cropName: string) => {
     const cropIndex = recommendations?.crops.findIndex(c => c.name === cropName) ?? -1;
@@ -66,7 +36,8 @@ export function RecommendationResults({ recommendations, isLoading, error, onPla
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <Skeleton className="h-8 w-1/2" />
+        <Skeleton className="h-40 w-full" />
+        <Skeleton className="h-8 w-1/2 mt-6" />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {Array.from({ length: 3 }).map((_, i) => (
             <Card key={i}>
@@ -129,78 +100,58 @@ export function RecommendationResults({ recommendations, isLoading, error, onPla
 
   return (
     <div className="space-y-6">
-        {cropLayout ? (
-            <Card>
-                <CardHeader>
-                    <CardTitle>Your Garden Layout</CardTitle>
-                    <CardDescription>Here's the optimal placement for your crops on your terrace.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="p-4 border rounded-lg bg-card overflow-x-auto">
-                        <div
-                            className="relative terrace-grid gap-1 aspect-square bg-muted/20"
-                            style={{
-                                '--rows': terraceLayout.rows,
-                                '--cols': terraceLayout.cols,
-                                'minWidth': `${terraceLayout.cols * 2.5}rem`
-                            } as React.CSSProperties}
-                        >
-                            {terraceLayout.grid.map((row, r) =>
-                                row.map((isPlantable, c) => (
-                                    <div
-                                        key={`${r}-${c}`}
-                                        className={cn(
-                                            'w-full h-full rounded-sm',
-                                            isPlantable ? 'bg-green-100 border border-green-200' : 'bg-muted/30'
-                                        )}
-                                    />
-                                ))
-                            )}
-                            {cropLayout.layout.map(({ cropName, position }, index) => {
-                                const cropDetails = recommendations.crops.find(c => c.name === cropName);
-                                if (!cropDetails) return null;
-                                return (
-                                    <div
-                                        key={index}
-                                        className={cn(
-                                            "absolute rounded-md flex items-center justify-center text-xs font-bold text-gray-800 p-1 text-center transition-all duration-300",
-                                            getCropColor(cropName)
-                                        )}
-                                        style={{
-                                            gridRowStart: position.row + 1,
-                                            gridColumnStart: position.col + 1,
-                                            gridRowEnd: position.row + Math.round(cropDetails.plantSize.height) + 1,
-                                            gridColumnEnd: position.col + Math.round(cropDetails.plantSize.width) + 1,
-                                        }}
-                                    >
-                                       {cropName}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        ) : (
-            <Card className='text-center'>
-                <CardHeader>
-                    <CardTitle>Recommendations Ready!</CardTitle>
-                    <CardDescription>We've found some great crops for you. Ready to see how to arrange them?</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Button onClick={handleGenerateLayout} disabled={isLayoutLoading}>
-                        {isLayoutLoading ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                            <BrainCircuit className="mr-2 h-4 w-4" />
+        <Card>
+            <CardHeader>
+                <CardTitle>Your Garden Layout</CardTitle>
+                <CardDescription>Here's the optimal placement for your crops on your terrace.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="p-4 border rounded-lg bg-card overflow-x-auto">
+                    <div
+                        className="relative terrace-grid gap-1 aspect-square bg-muted/20"
+                        style={{
+                            '--rows': terraceLayout.rows,
+                            '--cols': terraceLayout.cols,
+                            'minWidth': `${terraceLayout.cols * 2.5}rem`
+                        } as React.CSSProperties}
+                    >
+                        {terraceLayout.grid.map((row, r) =>
+                            row.map((isPlantable, c) => (
+                                <div
+                                    key={`${r}-${c}`}
+                                    className={cn(
+                                        'w-full h-full rounded-sm',
+                                        isPlantable ? 'bg-green-100 border border-green-200' : 'bg-muted/30'
+                                    )}
+                                />
+                            ))
                         )}
-                        {isLayoutLoading ? 'Generating Layout...' : 'Generate Crop Layout'}
-                    </Button>
-                    {layoutError && <p className="text-destructive text-sm mt-2">{layoutError}</p>}
-                </CardContent>
-            </Card>
-        )}
-
+                        {recommendations.layout.map(({ cropName, position }, index) => {
+                            const cropDetails = recommendations.crops.find(c => c.name === cropName);
+                            if (!cropDetails) return null;
+                            return (
+                                <div
+                                    key={index}
+                                    className={cn(
+                                        "absolute rounded-md flex items-center justify-center text-xs font-bold text-gray-800 p-1 text-center transition-all duration-300",
+                                        getCropColor(cropName)
+                                    )}
+                                    style={{
+                                        gridRowStart: position.row + 1,
+                                        gridColumnStart: position.col + 1,
+                                        gridRowEnd: position.row + Math.round(cropDetails.plantSize.height) + 1,
+                                        gridColumnEnd: position.col + Math.round(cropDetails.plantSize.width) + 1,
+                                    }}
+                                    title={cropName}
+                                >
+                                   <span className="truncate">{cropName}</span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
 
       <h2 className="font-headline text-3xl font-bold tracking-tight">
         Your Recommended Crops

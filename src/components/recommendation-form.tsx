@@ -1,6 +1,6 @@
 "use client";
 
-import { recommendCrops, type CropRecommendationOutput } from '@/ai/flows/crop-recommendation';
+import { recommendCropsAndLayout, type CropRecommendationAndLayoutOutput } from '@/ai/flows/crop-recommendation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -25,7 +25,7 @@ const formSchema = z.object({
 });
 
 type RecommendationFormProps = {
-  setRecommendations: (data: CropRecommendationOutput | null) => void;
+  setRecommendations: (data: CropRecommendationAndLayoutOutput | null) => void;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   terraceLayout: TerraceLayout;
@@ -57,11 +57,12 @@ export function RecommendationForm({ setRecommendations, setIsLoading, setError,
     const plantableArea = values.layout.grid.flat().filter(Boolean).length;
 
     try {
-      const result = await recommendCrops({
+      const result = await recommendCropsAndLayout({
         terraceAreaSqft: plantableArea,
         city: values.city,
         month: values.month,
         soilType: values.soilType,
+        terraceLayout: values.layout.grid,
       });
       setRecommendations(result);
     } catch (e) {

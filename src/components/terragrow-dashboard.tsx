@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { CropRecommendationOutput, RecommendedCrop } from '@/ai/flows/crop-recommendation';
+import type { CropRecommendationAndLayoutOutput, RecommendedCrop } from '@/ai/flows/crop-recommendation';
 import { Leaf } from 'lucide-react';
 import { useState } from 'react';
 import { RecommendationForm } from './recommendation-form';
@@ -19,7 +19,7 @@ const createEmptyLayout = (rows: number, cols: number): TerraceLayout => ({
 
 
 export function TerraGrowDashboard() {
-  const [recommendations, setRecommendations] = useState<CropRecommendationOutput | null>(null);
+  const [recommendations, setRecommendations] = useState<CropRecommendationAndLayoutOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [trackedCrops, setTrackedCrops] = useState<TrackedCrop[]>([]);
@@ -53,7 +53,7 @@ export function TerraGrowDashboard() {
     setTrackedCrops((prev) => prev.filter((crop) => crop.id !== cropId));
   };
 
-  const handleSetRecommendations = (data: CropRecommendationOutput | null) => {
+  const handleSetRecommendations = (data: CropRecommendationAndLayoutOutput | null) => {
       setRecommendations(data);
   };
 
