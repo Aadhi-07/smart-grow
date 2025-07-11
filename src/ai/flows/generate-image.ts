@@ -10,6 +10,9 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
+// Simple in-memory cache to avoid hitting rate limits for the same prompts.
+const imageCache = new Map<string, string>();
+
 const GenerateImageInputSchema = z.object({
   prompt: z.string().describe('The text prompt to generate an image from.'),
 });
@@ -35,6 +38,11 @@ const generateImageFlow = ai.defineFlow(
     outputSchema: GenerateImageOutputSchema,
   },
   async ({prompt}) => {
+    // Check cache first
+    if (imageCache.has(prompt)) {
+      return {imageUrl: imageCache.get(prompt)!};
+    }
+
     const {media} = await ai.generate({
       model: 'googleai/gemini-2.0-flash-preview-image-generation',
       prompt: `a vibrant, high-quality photograph of a healthy ${prompt} in a terrace garden setting, with natural sunlight`,
@@ -43,6 +51,9 @@ const generateImageFlow = ai.defineFlow(
     if (!media || !media.url) {
       throw new Error('Image generation failed.');
     }
+    
+    // Store in cache
+    imageCache.set(prompt, media.url);
 
     return {imageUrl: media.url};
   }
