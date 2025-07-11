@@ -3,9 +3,11 @@
 import type { CropRecommendationOutput } from '@/ai/flows/crop-recommendation';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, Bot, Info } from 'lucide-react';
+import { AlertCircle, Bot, Info, Package, Waves } from 'lucide-react';
+import Image from 'next/image';
 
 type RecommendationResultsProps = {
   recommendations: CropRecommendationOutput | null;
@@ -18,17 +20,20 @@ export function RecommendationResults({ recommendations, isLoading, error }: Rec
     return (
       <div className="space-y-4">
         <Skeleton className="h-8 w-1/2" />
-        {Array.from({ length: 3 }).map((_, i) => (
-          <Card key={i}>
-            <CardHeader>
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-10 w-full" />
-            </CardContent>
-          </Card>
-        ))}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {Array.from({ length: 2 }).map((_, i) => (
+            <Card key={i}>
+                <Skeleton className="h-[200px] w-full rounded-t-lg" />
+                <CardHeader>
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                </CardHeader>
+                <CardContent>
+                <Skeleton className="h-10 w-full" />
+                </CardContent>
+            </Card>
+            ))}
+        </div>
       </div>
     );
   }
@@ -80,14 +85,29 @@ export function RecommendationResults({ recommendations, isLoading, error }: Rec
       <h2 className="font-headline text-3xl font-bold tracking-tight">
         Your Recommended Crops
       </h2>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {recommendations.crops.map((crop) => (
-          <Card key={crop.name} className="flex flex-col">
+          <Card key={crop.name} className="flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+            <div className="relative h-48 w-full">
+              <Image 
+                src={`https://placehold.co/400x300.png`}
+                alt={crop.name}
+                layout="fill"
+                objectFit="cover"
+                data-ai-hint={`${crop.name.toLowerCase().replace(' ', '')} plant`}
+              />
+            </div>
             <CardHeader>
               <CardTitle className="font-headline text-xl">{crop.name}</CardTitle>
               <CardDescription>Best Season: {crop.season}</CardDescription>
             </CardHeader>
-            <CardContent className="flex-grow">
+            <CardContent className="flex-grow space-y-4">
+               <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Package className="h-5 w-5 flex-shrink-0 text-primary" />
+                <span>
+                  <strong>Est. Yield:</strong> {crop.estimatedYield}
+                </span>
+              </div>
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="care-tips">
                   <AccordionTrigger>Care Tips</AccordionTrigger>

@@ -27,7 +27,8 @@ const CropRecommendationOutputSchema = z.object({
     z.object({
       name: z.string().describe('The name of the recommended crop.'),
       season: z.string().describe('The season when the crop grows best.'),
-      careTips: z.string().describe('Tips for taking care of the crop.'),
+      careTips: z.string().describe('Tips for taking care of the crop, formatted as a bulleted list.'),
+      estimatedYield: z.string().describe('The estimated yield per plant or per square foot.'),
     })
   ).describe('A list of recommended crops.'),
 });
@@ -51,7 +52,8 @@ const prompt = ai.definePrompt({
   Soil Type: {{soilType}}
 
   Consider the local climate and typical weather conditions for the given location and month.
-  Provide specific care tips for each recommended crop.
+  Provide specific, actionable care tips for each recommended crop, formatted as a simple bulleted list.
+  Also provide an estimated yield for each crop (e.g., "2-3 kgs per plant" or "1 kg per sq. ft.").
 
   Format your repsonse as a valid JSON object.
   `,
