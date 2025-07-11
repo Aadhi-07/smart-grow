@@ -60,11 +60,48 @@ export function TerraGrowDashboard() {
   return (
     <div className="space-y-8">
       <header className="space-y-4 text-center">
-        <div className="inline-flex items-center justify-center gap-3 rounded-full bg-primary/10 px-6 py-3 text-primary">
-          <Leaf className="h-8 w-8" />
-          <h1 className="font-headline text-4xl font-bold tracking-wider text-primary-foreground md:text-5xl">
+        <div className="inline-flex items-center justify-center gap-1 rounded-full bg-primary/10 px-4 py-2 text-primary">
+            <svg
+                className="h-16 w-16 -mr-4 text-primary"
+                viewBox="0 0 100 100"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M50 95C20 90 10 50 10 50S20 10 50 5"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="vine-path"
+                  style={{ animationDelay: '0.2s' }}
+                />
+                <path d="M10 50C15 45 20 45 20 45" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.8s' }} />
+                <path d="M25 75C30 70 35 70 35 70" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.6s' }} />
+                <path d="M30 25C35 30 40 30 40 30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1s' }} />
+            </svg>
+          <h1 className="font-headline text-4xl font-bold tracking-wider text-primary-foreground text-glow py-3 md:text-5xl">
             TerraGrow
           </h1>
+          <svg
+                className="h-16 w-16 -ml-4 text-primary"
+                viewBox="0 0 100 100"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M50 95C80 90 90 50 90 50S80 10 50 5"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="vine-path"
+                  style={{ animationDelay: '0.2s' }}
+                />
+                <path d="M90 50C85 45 80 45 80 45" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.8s' }} />
+                <path d="M75 75C70 70 65 70 65 70" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.6s' }} />
+                <path d="M70 25C65 30 60 30 60 30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1s' }} />
+              </svg>
         </div>
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           Your personal AI assistant for a thriving terrace garden. Get crop
