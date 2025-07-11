@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { CropRecommendationOutput } from '@/ai/flows/crop-recommendation';
+import type { CropRecommendationOutput, RecommendedCrop } from '@/ai/flows/crop-recommendation';
 import { Leaf } from 'lucide-react';
 import { useState } from 'react';
 import { RecommendationForm } from './recommendation-form';
@@ -9,7 +9,13 @@ import { RecommendationResults } from './recommendation-results';
 import { SensorDisplay } from './sensor-display';
 import { Chatbot } from './chatbot';
 import { CropTracker } from './crop-tracker';
-import type { TrackedCrop } from '@/lib/types';
+import type { TrackedCrop, TerraceLayout } from '@/lib/types';
+
+const createEmptyLayout = (rows: number, cols: number): TerraceLayout => ({
+  rows,
+  cols,
+  grid: Array.from({ length: rows }, () => Array(cols).fill(false)),
+});
 
 
 export function TerraGrowDashboard() {
@@ -17,8 +23,10 @@ export function TerraGrowDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [trackedCrops, setTrackedCrops] = useState<TrackedCrop[]>([]);
+  const [terraceLayout, setTerraceLayout] = useState<TerraceLayout>(createEmptyLayout(15, 15));
 
-  const handlePlantCrop = (crop: CropRecommendationOutput['crops'][0]) => {
+
+  const handlePlantCrop = (crop: RecommendedCrop) => {
     const isPlanted = trackedCrops.some(tc => tc.name === crop.name);
     if (isPlanted) return;
 
@@ -45,6 +53,10 @@ export function TerraGrowDashboard() {
     setTrackedCrops((prev) => prev.filter((crop) => crop.id !== cropId));
   };
 
+  const handleSetRecommendations = (data: CropRecommendationOutput | null) => {
+      setRecommendations(data);
+  };
+
   return (
     <div className="space-y-8">
       <header className="space-y-4 text-center">
@@ -56,7 +68,7 @@ export function TerraGrowDashboard() {
         </div>
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           Your personal AI assistant for a thriving terrace garden. Get crop
-          recommendations based on your space, climate, and soil.
+          recommendations and a custom layout for your space.
         </p>
       </header>
       
@@ -71,9 +83,11 @@ export function TerraGrowDashboard() {
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
         <aside className="top-8 space-y-8 lg:col-span-1 lg:sticky">
           <RecommendationForm
-            setRecommendations={setRecommendations}
+            setRecommendations={handleSetRecommendations}
             setIsLoading={setIsLoading}
             setError={setError}
+            terraceLayout={terraceLayout}
+            setTerraceLayout={setTerraceLayout}
           />
           <SensorDisplay />
         </aside>
@@ -85,6 +99,7 @@ export function TerraGrowDashboard() {
             error={error}
             onPlantCrop={handlePlantCrop}
             trackedCrops={trackedCrops}
+            terraceLayout={terraceLayout}
           />
         </main>
       </div>

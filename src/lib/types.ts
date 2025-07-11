@@ -1,8 +1,14 @@
 
-import type { CropRecommendationOutput } from "@/ai/flows/crop-recommendation";
+import type { RecommendedCrop } from "@/ai/flows/crop-recommendation";
 
-export type TrackedCrop = CropRecommendationOutput['crops'][0] & {
+export type TrackedCrop = RecommendedCrop & {
     id: string;
     plantedDate: Date;
     wateringLog: Date[];
+};
+
+export type TerraceLayout = {
+    rows: number;
+    cols: number;
+    grid: boolean[][];
 };

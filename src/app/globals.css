@@ -67,3 +67,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .terrace-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 10), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--rows, 10), minmax(0, 1fr));
+  }
+}

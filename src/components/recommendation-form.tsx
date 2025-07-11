@@ -3,7 +3,7 @@
 import { recommendCrops, type CropRecommendationOutput } from '@/ai/flows/crop-recommendation';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
@@ -11,19 +11,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Sprout } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { TerracePlanner } from './terrace-planner';
+import type { TerraceLayout } from '@/lib/types';
 
 const formSchema = z.object({
-  length: z.coerce.number().positive({ message: "Must be a positive number." }).min(1),
-  width: z.coerce.number().positive({ message: "Must be a positive number." }).min(1),
   city: z.string().min(2, { message: "City is required." }),
   month: z.string({ required_error: "Please select a month." }),
   soilType: z.string().optional(),
+  layout: z.custom<TerraceLayout>()
+    .refine((layout) => layout.grid.flat().some(cell => cell), {
+        message: "Please draw your terrace layout. At least one tile must be selected."
+    }),
 });
 
 type RecommendationFormProps = {
   setRecommendations: (data: CropRecommendationOutput | null) => void;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+  terraceLayout: TerraceLayout;
+  setTerraceLayout: (layout: TerraceLayout) => void;
 };
 
 const months = [
@@ -31,15 +37,15 @@ const months = [
   "July", "August", "September", "October", "November", "December"
 ];
 
-export function RecommendationForm({ setRecommendations, setIsLoading, setError }: RecommendationFormProps) {
+export function RecommendationForm({ setRecommendations, setIsLoading, setError, terraceLayout, setTerraceLayout }: RecommendationFormProps) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      length: 10,
-      width: 12,
       city: "Mumbai",
       soilType: "Loamy",
+      month: months[new Date().getMonth()],
+      layout: terraceLayout,
     },
   });
 
@@ -48,11 +54,11 @@ export function RecommendationForm({ setRecommendations, setIsLoading, setError 
     setError(null);
     setRecommendations(null);
 
-    const terraceAreaSqft = values.length * values.width;
+    const plantableArea = values.layout.grid.flat().filter(Boolean).length;
 
     try {
       const result = await recommendCrops({
-        terraceAreaSqft,
+        terraceAreaSqft: plantableArea,
         city: values.city,
         month: values.month,
         soilType: values.soilType,
@@ -77,40 +83,29 @@ export function RecommendationForm({ setRecommendations, setIsLoading, setError 
       <CardHeader>
         <CardTitle>Plan Your Garden</CardTitle>
         <CardDescription>
-          Tell us about your space, and we'll suggest the perfect crops.
+          Design your terrace and we'll suggest the perfect crops and layout.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="length"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Length (ft)</FormLabel>
-                    <FormControl>
-                      <Input type="number" placeholder="e.g., 10" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="width"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Width (ft)</FormLabel>
-                    <FormControl>
-                      <Input type="number" placeholder="e.g., 12" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="layout"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Terrace Layout (1 tile = 1x1 sq ft)</FormLabel>
+                  <FormControl>
+                     <TerracePlanner layout={field.value} onChange={(newLayout) => {
+                        setTerraceLayout(newLayout);
+                        field.onChange(newLayout);
+                     }} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="city"
@@ -153,9 +148,6 @@ export function RecommendationForm({ setRecommendations, setIsLoading, setError 
                   <FormControl>
                     <Input placeholder="e.g., Loamy, Sandy, Clay" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Providing soil type helps in better recommendations.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
