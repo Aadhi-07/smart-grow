@@ -86,8 +86,8 @@ export function RecommendationResults({ recommendations, isLoading, error }: Rec
         Your Recommended Crops
       </h2>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        {recommendations.crops.map((crop) => (
-          <Card key={crop.name} className="flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+        {recommendations.crops.map((crop, index) => (
+          <Card key={`${crop.name}-${index}`} className="flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
             <div className="relative h-48 w-full">
               <Image 
                 src={`https://placehold.co/400x300.png`}
