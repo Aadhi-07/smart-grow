@@ -36,13 +36,8 @@ const chatFlow = ai.defineFlow(
   },
   async ({history, message}) => {
     const {text} = await ai.generate({
-      prompt: [
-        ...history.map((msg) => ({role: msg.role, content: msg.content})),
-        {
-          role: 'user',
-          content: message,
-        },
-      ],
+      history: history.map((msg) => ({role: msg.role, content: [{text: msg.content}]})),
+      prompt: message,
       system: `You are a friendly and helpful gardening assistant for a web app called TerraGrow.
         Your goal is to provide concise, practical, and easy-to-understand advice to users about their terrace gardens.
         Keep your answers short and to the point. Use simple language.
