@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { CropRecommendationOutput } from '@/ai/flows/crop-recommendation';
@@ -7,11 +8,39 @@ import { RecommendationForm } from './recommendation-form';
 import { RecommendationResults } from './recommendation-results';
 import { SensorDisplay } from './sensor-display';
 import { Chatbot } from './chatbot';
+import { CropTracker } from './crop-tracker';
+import type { TrackedCrop } from '@/lib/types';
+
 
 export function TerraGrowDashboard() {
   const [recommendations, setRecommendations] = useState<CropRecommendationOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [trackedCrops, setTrackedCrops] = useState<TrackedCrop[]>([]);
+
+  const handlePlantCrop = (crop: CropRecommendationOutput['crops'][0]) => {
+    const newCrop: TrackedCrop = {
+      ...crop,
+      id: `${crop.name}-${new Date().getTime()}`,
+      plantedDate: new Date(),
+      wateringLog: [],
+    };
+    setTrackedCrops((prev) => [...prev, newCrop]);
+  };
+
+  const handleWaterCrop = (cropId: string) => {
+    setTrackedCrops((prev) =>
+      prev.map((crop) =>
+        crop.id === cropId
+          ? { ...crop, wateringLog: [...crop.wateringLog, new Date()] }
+          : crop
+      )
+    );
+  };
+
+  const handleRemoveCrop = (cropId: string) => {
+    setTrackedCrops((prev) => prev.filter((crop) => crop.id !== cropId));
+  };
 
   return (
     <div className="space-y-8">
@@ -27,6 +56,14 @@ export function TerraGrowDashboard() {
           recommendations based on your space, climate, and soil.
         </p>
       </header>
+      
+      {trackedCrops.length > 0 && (
+        <CropTracker 
+          crops={trackedCrops} 
+          onWater={handleWaterCrop}
+          onRemove={handleRemoveCrop}
+        />
+      )}
 
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
         <aside className="top-8 space-y-8 lg:col-span-1 lg:sticky">
@@ -43,6 +80,7 @@ export function TerraGrowDashboard() {
             recommendations={recommendations}
             isLoading={isLoading}
             error={error}
+            onPlantCrop={handlePlantCrop}
           />
         </main>
       </div>

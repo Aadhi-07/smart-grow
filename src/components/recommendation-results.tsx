@@ -1,22 +1,25 @@
+
 "use client";
 
 import type { CropRecommendationOutput } from '@/ai/flows/crop-recommendation';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, Bot, Info, Package, Waves } from 'lucide-react';
+import { AlertCircle, Bot, Info, Package, Waves, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { CropImage } from './crop-image';
+import { Button } from './ui/button';
 
 type RecommendationResultsProps = {
   recommendations: CropRecommendationOutput | null;
   isLoading: boolean;
   error: string | null;
+  onPlantCrop: (crop: CropRecommendationOutput['crops'][0]) => void;
 };
 
-export function RecommendationResults({ recommendations, isLoading, error }: RecommendationResultsProps) {
+export function RecommendationResults({ recommendations, isLoading, error, onPlantCrop }: RecommendationResultsProps) {
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -94,7 +97,7 @@ export function RecommendationResults({ recommendations, isLoading, error }: Rec
               <CardTitle className="font-headline text-xl">{crop.name}</CardTitle>
               <CardDescription>Best Season: {crop.season}</CardDescription>
             </CardHeader>
-            <CardContent className="flex-grow space-y-4">
+            <CardContent className="flex flex-grow flex-col space-y-4">
                <div className="flex items-start gap-2 text-sm text-muted-foreground">
                 <Package className="h-5 w-5 flex-shrink-0 text-primary" />
                 <span>
@@ -110,6 +113,12 @@ export function RecommendationResults({ recommendations, isLoading, error }: Rec
                 </AccordionItem>
               </Accordion>
             </CardContent>
+            <CardFooter>
+                <Button className="w-full" onClick={() => onPlantCrop(crop)}>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Plant this Crop
+                </Button>
+            </CardFooter>
           </Card>
         ))}
       </div>
