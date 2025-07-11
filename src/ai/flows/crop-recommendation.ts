@@ -71,21 +71,21 @@ const recommendPrompt = ai.definePrompt({
   name: 'cropRecommendationPrompt',
   input: {schema: CropRecommendationInputSchema},
   output: {schema: CropRecommendationOutputSchema},
-  prompt: `You are an expert agricultural advisor, specializing in terrace farms.
-
-  Based on the terrace area, location, and current month, recommend the top 5 crops that are most suitable for planting.
+  prompt: `You are an expert agricultural advisor for terrace farms. Your task is to recommend the top 5 most suitable crops based on the provided details.
 
   Terrace Area: {{terraceAreaSqft}} sqft
   Location: {{city}}
   Month: {{month}}
   Soil Type: {{soilType}}
 
-  Consider the local climate and typical weather conditions for the given location and month.
-  Provide specific, actionable care tips for each recommended crop, formatted as a simple bulleted list.
-  Provide an estimated yield for each crop (e.g., "2-3 kgs per plant" or "1 kg per sq. ft.").
-  Provide an estimated mature plant size (width and height in feet) for each crop.
+  Analyze the inputs to recommend crops that thrive in the local climate for the given month. For each crop, provide:
+  - The common name.
+  - The best growing season.
+  - Actionable care tips in a bulleted list format.
+  - An estimated yield (e.g., "2-3 kgs per plant").
+  - An estimated mature plant size (width and height in feet).
 
-  IMPORTANT: Your response must be a valid JSON object that strictly adheres to the provided output schema. Do not include any text, markdown formatting, or anything else outside of the JSON object.
+  CRITICAL: Your entire response must be a single, valid JSON object that strictly adheres to the provided output schema. Do NOT include any text, conversation, apologies, or markdown formatting like \`\`\`json before or after the JSON object.
   `,
 });
 
@@ -134,7 +134,7 @@ const layoutPrompt = ai.definePrompt({
     - {{name}}: {{plantSize.width}}ft x {{plantSize.height}}ft (height: {{plantSize.height}}ft)
     {{/each}}
 
-    IMPORTANT: Your response must be a valid JSON object that strictly adheres to the provided output schema. Do not include any text, markdown formatting, or anything else outside of the JSON object.
+    CRITICAL: Your entire response must be a single, valid JSON object that strictly adheres to the provided output schema. Do NOT include any text, conversation, apologies, or markdown formatting like \`\`\`json before or after the JSON object.
     `,
 });
 
