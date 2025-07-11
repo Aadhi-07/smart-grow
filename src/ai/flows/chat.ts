@@ -37,7 +37,7 @@ const chatFlow = ai.defineFlow(
   async ({history, message}) => {
     const {text} = await ai.generate({
       prompt: [
-        ...history,
+        ...history.map((msg) => ({role: msg.role, content: msg.content})),
         {
           role: 'user',
           content: message,
