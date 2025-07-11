@@ -81,14 +81,4 @@
       0 0 20px hsl(var(--primary) / 0.4),
       0 0 40px hsl(var(--primary) / 0.2);
   }
-  .vine-path {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: draw-vine 2.5s ease-in-out forwards;
-  }
-  @keyframes draw-vine {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
 }
