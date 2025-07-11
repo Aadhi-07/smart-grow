@@ -38,9 +38,6 @@ const generateImageFlow = ai.defineFlow(
     const {media} = await ai.generate({
       model: 'googleai/gemini-2.0-flash-preview-image-generation',
       prompt: `a vibrant, high-quality photograph of a healthy ${prompt} in a terrace garden setting, with natural sunlight`,
-      config: {
-        responseModalities: ['TEXT', 'IMAGE'],
-      },
     });
 
     if (!media || !media.url) {
