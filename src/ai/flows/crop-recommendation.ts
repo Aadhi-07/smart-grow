@@ -85,8 +85,7 @@ const recommendPrompt = ai.definePrompt({
   Provide an estimated yield for each crop (e.g., "2-3 kgs per plant" or "1 kg per sq. ft.").
   Provide an estimated mature plant size (width and height in feet) for each crop.
 
-  Format your response as a valid JSON object that strictly adheres to the provided output schema.
-  Do not include any text or formatting outside of the JSON object.
+  IMPORTANT: Your response must be a valid JSON object that strictly adheres to the provided output schema. Do not include any text, markdown formatting, or anything else outside of the JSON object.
   `,
 });
 
@@ -135,7 +134,7 @@ const layoutPrompt = ai.definePrompt({
     - {{name}}: {{plantSize.width}}ft x {{plantSize.height}}ft (height: {{plantSize.height}}ft)
     {{/each}}
 
-    Generate the layout as a valid JSON object adhering to the output schema.
+    IMPORTANT: Your response must be a valid JSON object that strictly adheres to the provided output schema. Do not include any text, markdown formatting, or anything else outside of the JSON object.
     `,
 });
 
