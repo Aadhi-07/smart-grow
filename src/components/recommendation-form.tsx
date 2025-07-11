@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { TerracePlanner } from './terrace-planner';
 import type { TerraceLayout } from '@/lib/types';
+import { useEffect } from 'react';
 
 const formSchema = z.object({
   city: z.string().min(2, { message: "City is required." }),
@@ -30,6 +31,8 @@ type RecommendationFormProps = {
   setError: (error: string | null) => void;
   terraceLayout: TerraceLayout;
   setTerraceLayout: (layout: TerraceLayout) => void;
+  onCityChange: (city: string) => void;
+  initialCity: string;
 };
 
 const months = [
@@ -37,17 +40,24 @@ const months = [
   "July", "August", "September", "October", "November", "December"
 ];
 
-export function RecommendationForm({ setRecommendations, setIsLoading, setError, terraceLayout, setTerraceLayout }: RecommendationFormProps) {
+export function RecommendationForm({ setRecommendations, setIsLoading, setError, terraceLayout, setTerraceLayout, onCityChange, initialCity }: RecommendationFormProps) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      city: "Mumbai",
+      city: initialCity,
       soilType: "Loamy",
       month: months[new Date().getMonth()],
       layout: terraceLayout,
     },
   });
+
+  const cityValue = form.watch("city");
+  
+  useEffect(() => {
+    onCityChange(cityValue);
+  }, [cityValue, onCityChange]);
+
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
