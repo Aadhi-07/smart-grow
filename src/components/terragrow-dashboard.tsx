@@ -67,18 +67,13 @@ export function TerraGrowDashboard() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  d="M50 95C20 90 10 50 10 50S20 10 50 5"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="vine-path"
-                  style={{ animationDelay: '0.2s' }}
-                />
-                <path d="M10 50C15 45 20 45 20 45" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.8s' }} />
-                <path d="M25 75C30 70 35 70 35 70" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.6s' }} />
-                <path d="M30 25C35 30 40 30 40 30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1s' }} />
+                <path d="M50 95C20 90 10 50 10 50S20 10 50 5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="vine-path" style={{ animationDelay: '0s' }} />
+                <path d="M10 50C18 45 20 45 20 45" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.8s' }} />
+                <path d="M20 45C15 35 25 30 25 30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1.2s' }} />
+                <path d="M25 75C33 70 35 70 35 70" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.6s' }} />
+                <path d="M35 70C30 60 40 55 40 55" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1.4s' }} />
+                <path d="M30 25C38 30 40 30 40 30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1s' }} />
+                <path d="M40 30C35 20 45 15 45 15" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1.6s' }} />
             </svg>
           <h1 className="font-headline text-4xl font-bold tracking-wider text-primary-foreground text-glow py-3 md:text-5xl">
             TerraGrow
@@ -89,18 +84,13 @@ export function TerraGrowDashboard() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  d="M50 95C80 90 90 50 90 50S80 10 50 5"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="vine-path"
-                  style={{ animationDelay: '0.2s' }}
-                />
-                <path d="M90 50C85 45 80 45 80 45" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.8s' }} />
-                <path d="M75 75C70 70 65 70 65 70" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.6s' }} />
-                <path d="M70 25C65 30 60 30 60 30" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1s' }} />
+                <path d="M50 95C80 90 90 50 90 50S80 10 50 5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="vine-path" style={{ animationDelay: '0s' }} />
+                <path d="M90 50C82 45 80 45 80 45" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.8s' }} />
+                <path d="M80 45C85 35 75 30 75 30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1.2s' }} />
+                <path d="M75 75C67 70 65 70 65 70" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '0.6s' }} />
+                <path d="M65 70C70 60 60 55 60 55" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1.4s' }} />
+                <path d="M70 25C62 30 60 30 60 30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1s' }} />
+                <path d="M60 30C65 20 55 15 55 15" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="vine-path" style={{ animationDelay: '1.6s' }} />
               </svg>
         </div>
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
