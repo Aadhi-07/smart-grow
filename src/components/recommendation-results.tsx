@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, Bot, Info, Package, Waves, PlusCircle, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
-import { CropImage } from './crop-image';
 import { Button } from './ui/button';
 import type { TrackedCrop } from '@/lib/types';
 
@@ -94,9 +93,19 @@ export function RecommendationResults({ recommendations, isLoading, error, onPla
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {recommendations.crops.map((crop, index) => {
           const isPlanted = trackedCrops.some(tc => tc.name === crop.name);
+          const dataAiHint = crop.name.toLowerCase().split(' ').slice(0, 2).join(' ');
           return (
             <Card key={`${crop.name}-${index}`} className="flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
-              <CropImage cropName={crop.name} />
+              <div className="relative h-48 w-full">
+                <Image
+                  src={`https://placehold.co/400x300.png`}
+                  alt={`Placeholder image for ${crop.name}`}
+                  fill={true}
+                  style={{objectFit: 'cover'}}
+                  className="rounded-t-lg"
+                  data-ai-hint={dataAiHint}
+                />
+              </div>
               <CardHeader>
                 <CardTitle className="font-headline text-xl">{crop.name}</CardTitle>
                 <CardDescription>Best Season: {crop.season}</CardDescription>
