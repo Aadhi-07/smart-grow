@@ -4,10 +4,9 @@
 import type { CropRecommendationOutput } from '@/ai/flows/crop-recommendation';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, Bot, Info, Package, Waves, PlusCircle, CheckCircle } from 'lucide-react';
+import { AlertCircle, Bot, Info, Package, PlusCircle, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import type { TrackedCrop } from '@/lib/types';

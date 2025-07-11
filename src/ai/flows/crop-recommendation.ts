@@ -1,3 +1,4 @@
+
 // src/ai/flows/crop-recommendation.ts
 'use server';
 
@@ -55,7 +56,8 @@ const prompt = ai.definePrompt({
   Provide specific, actionable care tips for each recommended crop, formatted as a simple bulleted list.
   Also provide an estimated yield for each crop (e.g., "2-3 kgs per plant" or "1 kg per sq. ft.").
 
-  Format your repsonse as a valid JSON object.
+  Format your response as a valid JSON object that strictly adheres to the provided output schema.
+  Do not include any text or formatting outside of the JSON object.
   `,
 });
 
