@@ -41,16 +41,6 @@ const getWeatherTool = ai.defineTool(
   }
 );
 
-
-const getWeatherPrompt = ai.definePrompt({
-    name: 'getWeatherPrompt',
-    input: { schema: WeatherInputSchema },
-    output: { schema: WeatherOutputSchema },
-    tools: [getWeatherTool],
-    prompt: `Get the weather for {{city}} using the provided tool. Do not make up data.`,
-});
-
-
 const getWeatherFlow = ai.defineFlow(
   {
     name: 'getWeatherFlow',
@@ -58,8 +48,8 @@ const getWeatherFlow = ai.defineFlow(
     outputSchema: WeatherOutputSchema,
   },
   async (input) => {
-    const {output} = await getWeatherPrompt(input);
-    return output!;
+    // Call the tool directly to ensure we get the correct output format.
+    return await getWeatherTool(input);
   }
 );
 
