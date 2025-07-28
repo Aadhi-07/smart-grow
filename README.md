@@ -49,7 +49,7 @@ Integrates News API for agricultural insights and OpenWeather API for local farm
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/AtharvaIngle/Smart-Grow.git
+git clone https://github.com/Aadhi-07/smart-grow
 cd Smart-Grow
 ```
 
