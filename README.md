@@ -3,7 +3,7 @@
 > A modern indoor plant app integrating **AI**, **ML**, and **IoT** technologies into a unified Flutter application.
 
 ---
-nn
+
 ## 🌿 Overview
 
 Smart Grow is designed to revolutionize smart gardening by combining:
